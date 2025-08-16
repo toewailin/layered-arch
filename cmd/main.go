@@ -19,9 +19,7 @@ func main() {
 	}
 
 	// Set up routes
-	routes.SetupUserRoutes(r)
-	routes.SetupProductRoutes(r)
-	routes.SetupFaqRoutes(r)
+	routes.SetupRoutes(r, config.DB)
 
 	// Start the server
 	err = r.Run(":8081")

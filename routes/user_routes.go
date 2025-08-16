@@ -1,26 +1,23 @@
 package routes
 
 import (
-	"app/config"
 	"app/handlers"
 	"app/repository"
 	"app/services"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
-// SetupUserRoutes sets up all user-related routes
-func SetupUserRoutes(r *gin.Engine) {
-	// Assuming the database connection is available
-	db := config.DB
-
+// SetupUserRoutes sets up all user-related routes with dependency injection
+func SetupUserRoutes(r *gin.Engine, db *gorm.DB) {
 	// Create repository, service, and handler instances
 	userRepo := repository.NewUserRepository(db)
 	userService := services.NewUserService(userRepo)
 	userHandler := handlers.NewUserHandler(userService)
 
 	// Define routes
-	userRoutes := r.Group("/users")
+	userRoutes := r.Group("/api/users")
 	{
 		userRoutes.GET("/", userHandler.GetAllUsers)
 		userRoutes.POST("/", userHandler.CreateUser)
